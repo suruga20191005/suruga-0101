@@ -1,0 +1,102 @@
+import  { useState } from "react"
+import Note from './components/Note'
+import Person from './components/Person'
+
+
+const App = () => {
+
+  const [notes, setNotes] = useState([])
+  const [newNote, setNewNote] = useState()
+  const [filterName, setFilterName] = useState()
+
+  const [persons, setPersons] = useState([
+    {name: 'Arto Hellas', number: '040-123456', id:'1'},
+    {name: 'Ada Lovelace', number: '395323523', id:'2'},
+  ])
+  const [newName, setNewName] = useState()
+  const [newNumber, setNewNumber] = useState()
+
+  // const handleChange = (event) => {
+  //   event.preventDefault()
+  //   setFilterName(() => event.target.value)
+  //   console.log(filterName)
+  // }
+
+  const handleChangeFilter = (event) => {
+    event.preventDefault()
+    setFilterName(() => event.target.value)
+    console.log(filterName)
+  }
+  const handleChangeName = (event) => {
+    event.preventDefault()
+    setNewName(() => event.target.value)
+    console.log(newName)
+  }
+  const handleChangeNumber = (event) => {
+    event.preventDefault()
+    setNewNumber(() => event.target.value)
+    console.log(newNumber)
+  }
+
+  const addNote = (event) => {
+    event.preventDefault()
+    const noteObject = {
+      content: newNote,
+      id: notes.length + 1,
+    }
+    console.log(noteObject)
+    setNotes(notes.concat(noteObject))
+    // setNewNote('')
+  }
+
+  const addPerson = (event) => {
+    event.preventDefault()
+    const personObject = {
+      name: newName,
+      number: newNumber,
+      id: persons.length + 1,
+    }
+    console.log(personObject)
+    setPersons(persons.concat(personObject))
+    // setNewNote('')
+  }
+
+  return (
+    <div>
+      <h2>Phonebook</h2>
+      <div>
+      <div>
+          <input onChange={handleChangeFilter} type="text"/>
+        </div>
+      </div>
+
+      <h2>add a new</h2>
+      <form>
+        <div>
+          name: <input onChange={handleChangeName} type="text"/>
+        </div>
+        <div>
+          number: <input onChange={handleChangeNumber} type="text"/>
+          </div>
+        <div>
+          <button onClick={addPerson}>add</button>
+        </div>
+      </form>
+      <h2>Numbers</h2>
+      {/* <ul>
+        {notes.map((note) => 
+          <Note key={note.id} note={note} />
+        )}
+      </ul>  */}
+      <div>
+        {persons
+            .filter(person => person.name.includes(filterName))
+            .map(person => 
+              <Person key={person.id} person={person}/>
+          )}
+      </div>
+    </div>
+  )
+}
+
+export default App;
